@@ -49,9 +49,9 @@ class generation(object)
           x.random_gen(mouvements_numbers)
 
   def selection(self, nb_invidu_selec) :
-      """selection des nn_invidu_selec meilleurs individu parmi une génération"""
+      """selection des nb_invidu_selec meilleurs individu parmi une génération"""
       selection = []
-      tri_liste=tri_bulle(self.liste)
+      tri_liste=tribulle_individu(self.liste)
       for i in range (self.taille-nb_individu_selec, self.taille) :
           selection.append(tri_liste[i])
       return selection
@@ -60,7 +60,7 @@ class generation(object)
 
   def next_gene(self, nb_indiv_selec, proba_mutation, mouvements_number) :
       """construit la génération suivante"""
-      base_gene = self.prev_gene.selection
+      base_gene = self.selection
       next_gene = generation(self.taille)
       next_gene.age = self.age+1
       for i in range(self.taille):
