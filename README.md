@@ -10,6 +10,22 @@ GRENOBLE-INP PHELMA SICOM
 		nb de pins
 		degrés de libertés
 		etc ....
-	et génére la matrice de mouvement
+	et génére la matrice de mouvements
 #mvt_gene/
 	gére les codes génétiques et les mutations
+
+#REFERENCES_PARAMETRES
+
+	MODE_DEBUG = 0
+	MODE_SBS = 1
+	MODE_NORMAL = 2
+
+#PARAMETRES_UTILISATEURS
+
+	MODE_FONCTIONNEMENT :
+
+	MODE_TRANSMISSION :
+
+	PARAM_ARDUINO :
+
+	IMAGE_PROC_VEC :
