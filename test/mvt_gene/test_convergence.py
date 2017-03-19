@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """ Test de convergence de l'algorithme genetique """
 import math
 from mvt_gene.genetics import *
@@ -56,7 +57,7 @@ nb_opt+=[run_algogene()]
 ##        if gen.liste[0].liste == vec_opt.liste : nb_opt = gen.age-1
 ##    eval_gene(gen)
 
-    
+
 gen.affiche()
 
 print()
@@ -83,6 +84,3 @@ print(nb_conv,' generations ont convergées')
 print('Maximum : ',max(nb_opt),' Minimum : ', min(nb_opt) )
 nb_conv_var = sum( [ (i-mean_conv)**2 for i in nb_opt ] )/nb_conv
 print('Variance :', math.sqrt(nb_conv_var))
-
-
-

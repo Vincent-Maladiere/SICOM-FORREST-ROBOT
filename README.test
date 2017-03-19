@@ -1,0 +1,16 @@
+#############Pour lancer les scripts de tests#############
+
+python3 -m test.pkg.test_module
+où pkg est un paquet decrivant le fonctionnement du robot :
+	mvt_gene
+	imageproc
+	config
+	communication
+et test_module le script de test à lancer
+
+Le paquet test rassemble les tests sur le programme du robot
+
+Exemple pour les tests situés dans test/mvt_gene/
+	python3 -m test.mvt_gene.test_convergence
+	python3 -m test.mvt_gene.test
+
