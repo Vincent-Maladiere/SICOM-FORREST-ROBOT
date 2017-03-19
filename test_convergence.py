@@ -72,9 +72,9 @@ for i in range(nb_run_mean) :
     eval_gene(gen)
     nb_opt+=[run_algogene()]
 nb_conv = 0
-for i in nb_opt :
-    if i > 0 : nb_conv +=1
 
+for i in range(nb_opt.count(0)) : nb_opt.remove(0)
+nb_conv = len(nb_opt)
 mean_conv = sum(nb_opt)/nb_conv
 print('Avec nb_run_mean :',nb_run_mean,'| Proba_mut :',proba_mut,' | nb_run :',nb_run,' | nb_ind_selec :',nb_ind_selec)
 print('La convergence est atteinte en moyenne a la ', int(mean_conv),' generation')
