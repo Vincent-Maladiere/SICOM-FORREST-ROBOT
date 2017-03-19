@@ -1,7 +1,8 @@
 """ Test de convergence de l'algorithme genetique """
 import math
 from mvt_gene.genetics import *
-#Definitions
+
+#############Definitions#############
 nb_ind = 10 # nombres d'individus
 mvt_nb = 3 # nombre de mouvements
 proba_mut = 0.1 # probabilite de mutation
@@ -28,7 +29,7 @@ def run_algogene():
         eval_gene(gen)
     return nb_opt
 
-#Debut du script
+#############Debut du script#############
 gen = generation(size_gene,size_ind)
 gen.ran_gen(mvt_nb)
 eval_gene(gen)
