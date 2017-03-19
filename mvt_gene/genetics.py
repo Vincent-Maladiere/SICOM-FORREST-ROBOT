@@ -43,6 +43,7 @@ class generation(object)  :
 
         def ran_gen(self, mouvements_number) :
                 """creation d'une generation compose d individus construit aleatoirement"""
+                self.age = 0
                 for x in self.liste :
                         x.random_gen(mouvements_number)
 
