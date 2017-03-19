@@ -28,7 +28,7 @@ test/mvt_gene/test_convergence.py : test la convergence de l'algorithme genetiqu
 ### mvt_gene
 	gére les codes génétiques et les mutations
 
-## Paramêtres
+## Paramètres
 
 ### Constantes
 
@@ -36,7 +36,7 @@ test/mvt_gene/test_convergence.py : test la convergence de l'algorithme genetiqu
 	MODE_SBS = 1
 	MODE_NORMAL = 2
 
-###PARAMETRES_UTILISATEURS
+### Paramètres utilisateurs
 
 	MODE_FONCTIONNEMENT :
 
