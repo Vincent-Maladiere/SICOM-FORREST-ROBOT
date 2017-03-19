@@ -3,13 +3,13 @@
 GRENOBLE-INP PHELMA SICOM
 
 ### Prerequisites
-Python version 3.3 ou + is required
+Python version 3.3+ is required
 
 ## Running the tests
 
 python3 -m test.'pkg'.'test_module'
 
-See README.test
+Lire README.test
 
 test/mvt_gene/test.py : test le fonctionnement des méthodes des class individus et generations
 test/mvt_gene/test_convergence.py : test la convergence de l'algorithme genetique en fonction de parametres
