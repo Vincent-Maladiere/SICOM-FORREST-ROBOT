@@ -7,9 +7,9 @@ mvt_nb = 3 # nombre de mouvements
 proba_mut = 0.1 # probabilite de mutation
 size_gene = 10 # taille d'une generation
 size_ind = 10 # taille d'un individu
-nb_ind_selec = 5 # nombre d'individu selectionné chaque generation
+nb_ind_selec = 3 # nombre d'individu selectionné chaque generation
 nb_run = 50 # nombre de simulation
-nb_run_mean = 50# nombre de lancement afin d'estimer la convergence en moyenne
+nb_run_mean = 50 # nombre de lancement afin d'estimer la convergence en moyenne
 nb_opt = [] # Vecteur de numeros de la generation ayant atteint la solution optimale
 
 def evaluation(liste) :
@@ -71,11 +71,16 @@ for i in range(nb_run_mean) :
     gen.ran_gen(mvt_nb)
     eval_gene(gen)
     nb_opt+=[run_algogene()]
-nb_conv = sum(nb_opt)/len(nb_opt)
+nb_conv = 0
+for i in nb_opt :
+    if i > 0 : nb_conv +=1
+
+mean_conv = sum(nb_opt)/nb_conv
 print('Avec nb_run_mean :',nb_run_mean,'| Proba_mut :',proba_mut,' | nb_run :',nb_run,' | nb_ind_selec :',nb_ind_selec)
-print('La convergence est atteinte en moyenne a la ', int(nb_conv),' generation')
+print('La convergence est atteinte en moyenne a la ', int(mean_conv),' generation')
+print(nb_conv,' generations ont convergées')
 print('Maximum : ',max(nb_opt),' Minimum : ', min(nb_opt) )
-nb_conv_var = sum( [ (i-nb_conv)**2 for i in nb_opt ] )/len(nb_opt)
+nb_conv_var = sum( [ (i-mean_conv)**2 for i in nb_opt ] )/nb_conv
 print('Variance :', math.sqrt(nb_conv_var))
 
 
