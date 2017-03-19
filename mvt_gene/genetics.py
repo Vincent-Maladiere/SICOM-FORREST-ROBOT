@@ -30,8 +30,7 @@ class individu(object) :
                 return
 
         def affiche(self) :
-            print('    l individu a ', self.taille, ' gene qui sont :', self.liste)
-            print('                son score est de ', self.score)
+            print('    I: ',self.liste,' || Score: ',self.score)
 
 
 
@@ -55,10 +54,9 @@ class generation(object)  :
                 return copy.deepcopy(self)
 
         def affiche(self):
-                print( 'c est une generation de ', self.taille, ' individu qui sont :')
+                print( 'Generation : ', self.taille, ' || Age : ',self.age)
                 for x in self.liste :
                     x.affiche()
-                print( 'cette generation est la ', self.age, 'eme generation')
 
         def next_gene(self, nb_indiv_selec, proba_mutation, mouvements_number,func_accouplement) :
                 """Construit la génération suivante"""
