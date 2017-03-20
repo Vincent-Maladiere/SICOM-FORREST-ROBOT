@@ -2,12 +2,17 @@
 import sys
 sys.path[0] = sys.path[0].replace('/test/mvt_gene','')
 from mvt_gene.genetics import *
-nb_ind = 10 #
+
+
 mvt_nb = 50 #
 proba_mut = 0.01 #
 size_gene = 10
 size_ind = 10
 nb_ind_selec = 3
+
+for i in sys.argv[1:] :
+    exec(i)
+
 print()
 print('###############')
 print('Initialisation')
