@@ -1,4 +1,6 @@
 """Test de l'algorithme genetique"""
+import sys
+sys.path[0] = sys.path[0].replace('/test/mvt_gene','')
 from mvt_gene.genetics import *
 nb_ind = 10 #
 mvt_nb = 50 #

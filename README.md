@@ -7,7 +7,7 @@ Python version 3.3+ is required
 
 ## Running the tests
 
-python3 -m test.'pkg'.'test_module'
+python3 test/'pkg'/'test_module.py'
 
 Lire README.test
 

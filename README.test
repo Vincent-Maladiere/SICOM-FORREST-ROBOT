@@ -1,6 +1,6 @@
-#############Pour lancer les scripts de tests#############
+# Pour lancer les scripts de tests :
 
-python3 -m test.pkg.test_module
+python3 test/'pkg'/'test_module.py'
 où pkg est un paquet decrivant le fonctionnement du robot :
 	mvt_gene
 	imageproc

@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """ Test de convergence de l'algorithme genetique """
-import math
+import math,sys
+sys.path[0] = sys.path[0].replace('/test/mvt_gene','')
 from mvt_gene.genetics import *
+
 
 #############Definitions#############
 nb_ind = 10 # nombres d'individus
@@ -51,12 +53,6 @@ print()
 print('Nombre de run :',nb_run, ' Proba de mutation :',proba_mut)
 
 nb_opt+=[run_algogene()]
-##for i in range(0,nb_run):
-##    gen.next_gene(nb_ind_selec,proba_mut,mvt_nb,accouplement)
-##    if nb_opt < 0 :
-##        if gen.liste[0].liste == vec_opt.liste : nb_opt = gen.age-1
-##    eval_gene(gen)
-
 
 gen.affiche()
 
@@ -82,5 +78,7 @@ print('Avec nb_run_mean :',nb_run_mean,'| Proba_mut :',proba_mut,' | nb_run :',n
 print('La convergence est atteinte en moyenne a la ', int(mean_conv),' generation')
 print(nb_conv,' generations ont convergées')
 print('Maximum : ',max(nb_opt),' Minimum : ', min(nb_opt) )
-nb_conv_var = sum( [ (i-mean_conv)**2 for i in nb_opt ] )/nb_conv
-print('Variance :', math.sqrt(nb_conv_var))
+if nb_conv > 1 :
+    nb_conv_var = sum( [ (i-mean_conv)**2 for i in nb_opt ] )/(nb_conv-1)
+    print('Variance :', math.sqrt(nb_conv_var))
+else :print('Variance : ##Impossible à évaluer : division par 0##')
