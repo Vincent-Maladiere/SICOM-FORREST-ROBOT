@@ -1,0 +1,10 @@
+On effectue dans un premier temps la communication,
+entre Arduino et RPi par liaison serial.port filaire.
+Chaque lecture d’octet est accompagnée d’un delay
+pour assurer la bonne lecture. cette solution est provisoire 
+car delay arrête tout les process de l’arduino
+La Raspberry envoie donc un fichier binaire, permettant de 
+construire une matrice à deux colonnes sur Arduino, référençant chaque combinaison 
+de mouvement et de PIN par son indice dans le tableau. La raspberry n’aura donc plus
+qu’à envoyer une série d’entier indiquant la séquence à exécuter. 
+Ce code n’est pas terminé. 
