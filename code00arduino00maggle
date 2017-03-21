@@ -1,0 +1,156 @@
+#include <Servo.h> // Servo librairies // 
+
+
+// Creating all the servos object; we need 10 (2 by legs), we take the convention that servo_i_1 is the one for height movement and i_2 is the one for horizental movement
+
+Servo servo_1_1;  //On définit les variables Servo
+Servo servo_1_2;
+Servo servo_2_1;
+Servo servo_2_2;
+Servo servo_3_1;
+Servo servo_3_2;
+Servo servo_4_1;
+Servo servo_4_2;
+Servo servo_5_1;
+Servo servo_5_2;
+
+int speed_of_execution; // Time between two movements == speed of execution  
+
+int UP1 = 130;  //Chaque servo possède ses caractéristiques angulaires propres, déterminés int UP2 = 60;   //par leur montage sur la maquette 
+int UP3 = 30;   //Ainsi UP et DOWN sont les 2 angles des servo verticaux
+int UP4 = 5;	//et FOR & BACK s’appliquent aux servos horizontaux 
+int UP5 = 50;
+
+int DOWN1 = 30;
+int DOWN2 = 150;
+int DOWN3 = 130;
+int DOWN4 = 80;
+int DOWN5 = 150;
+
+int FOR1 = 120;
+int FOR2 = 20;
+int FOR3 = 150;
+int FOR4 = 50;
+
+int BACK1 = 60;
+int BACK2 = 100;
+int BACK3 = 70;
+int BACK4 = 130;
+
+char message[256];
+
+
+void setup() {    // Set up of the Robot 
+
+// Matching all the servo object with a PWM pin 
+
+   servo_1_1.attach(2);
+   servo_1_2.attach(3);
+   servo_2_1.attach(4);
+   servo_2_2.attach(5);
+   servo_3_1.attach(6);
+   servo_3_2.attach(7);
+   servo_4_1.attach(8);
+   servo_4_2.attach(9);
+   servo_5_1.attach(10); 
+   servo_5_2.attach(11);
+  
+   Serial.begin(9600);  // 
+  
+     
+}
+
+void loop(){
+/*pinMode(pin, INPUT);           // set pin to input
+digitalWrite(pin, HIGH);       // turn on pullup resistors*/
+
+//INIT MATRICE
+
+  //init_servo();
+  //delay(1000);
+
+/*
+On effectue dans un premier temps la communication,
+entre Arduino et RPi par liaison serial.port filaire.
+Chaque lecture d’octet est accompagnée d’un delay
+pour assurer la bonne lecture. cette solution est provisoire 
+car delay arrête tout les process de l’arduino
+La Raspberry envoie donc un fichier binaire, permettant de construire une matrice à deux colonnes sur Arduino, référençant chaque combinaison de mouvement et de PIN par son indice 
+dans le tableau. La raspberry n’aura donc plus qu’à envoyer une série d’entier indiquant
+la séquence à exécuter. Ce code n’est pas terminé. 
+*/
+
+  if(Serial.available()){	
+    int buff = Serial.read();	
+    delay(20);			
+      if(buff == 170){ //begin 0xAA  
+        int taille1 = Serial.read(); //0xS1    
+        delay(20); 	             
+        int taille2 = Serial.read(); //0xS2
+        delay(20);
+        int taille = taille1 + taille2;
+        int mode = Serial.read(); //Mode Fonctionnement
+        delay(20);
+        buff = Serial.read();
+        delay(20);
+        if(buff == 255){ //0xEE
+          int matrice[taille][2];
+          int i;
+          for(i=0; i<taille; i++){
+            matrice[i][0] = Serial.read(); //numero du PIN
+            delay(20);
+            matrice[i][1] = Serial.read(); //rotation 
+            delay(20);
+          }
+          buff = Serial.read();
+          if(buff == 272){ //End 0xFF
+            Serial.println("OK");
+          }
+        }
+      }
+    }
+  
+  //init_servo();
+  //delay(1000);
+}
+
+
+
+//Mouvement d’initialisation
+
+void init_servo(){
+  servo_1_2.write(80);
+  servo_2_2.write(60);
+  servo_3_2.write(110);
+  servo_4_2.write(90);
+  servo_5_2.write(110);
+
+  delay(1000);
+
+  servo_1_1.write(UP1);
+  servo_2_1.write(UP2);
+  servo_3_1.write(UP3);
+  servo_4_1.write(UP4);
+  servo_5_1.write(UP5);
+
+  delay(1000);
+
+  servo_1_1.write(DOWN1);
+  servo_2_1.write(DOWN2);
+  servo_3_1.write(DOWN3);
+  servo_4_1.write(DOWN4);
+  servo_5_1.write(DOWN5);
+
+  delay(1000);
+  
+  servo_1_1.write(UP1);
+  servo_2_1.write(UP2);
+  servo_3_1.write(UP3);
+  servo_4_1.write(UP4);
+  servo_5_1.write(UP5);
+
+  delay(2000);
+
+}
+
+
