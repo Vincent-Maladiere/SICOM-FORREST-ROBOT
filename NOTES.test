@@ -1,4 +1,4 @@
-En lancant le script de test 'test_convergence.py' du paquet de test, on remarque que plusieurs paramètres influence la convergence.
+	En lancant le script de test 'test_convergence.py' du paquet de test, on remarque que plusieurs paramètres influence la convergence.
 
 Une probabilité de mutation trop faible ou trop forte empeche la convergence et rend l'algorithme trop dépendant de la generation initiale.
 En fixant la probabilité de mutation aux alentour de 0.1 ~ 0.3 , on remarque qu'en moyenne l'algorithme converge plus rapidement.
@@ -7,4 +7,16 @@ Si le nombre de mouvement disponible est trop important et que le nombre de gene
 
 Par défaut nous avons fixé des paramètres permettant la convergence de l'algorithme.
 
+Extrait de test_convergence.py : 
+""
+	##A priori les variables ci-dessous seront determinés par la pratique##
+	PA.MVT_NB = 3 # nombre de mouvements
+	PA.NB_RUN = 50 # nombre de simulation
+	PA.SIZE_I = 10 # taille d'un individu
 
+	##Les 3 variables ci-dessous seront celles à optimiser pour atteindre le plus rapidement la convergence##
+	
+	PA.PROBA_MUT = 0.1 # probabilite de mutation
+	PA.SIZE_G = 10 # taille d'une generation
+	PA.NB_IND_SLT = 3 # nombre d'individu selectionné chaque generation
+""
