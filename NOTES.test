@@ -1,0 +1,10 @@
+En lancant le script de test 'test_convergence.py' du paquet de test, on remarque que plusieurs paramètres influence la convergence.
+
+Une probabilité de mutation trop faible ou trop forte empeche la convergence et rend l'algorithme trop dépendant de la generation initiale.
+En fixant la probabilité de mutation aux alentour de 0.1 ~ 0.3 , on remarque qu'en moyenne l'algorithme converge plus rapidement.
+
+Si le nombre de mouvement disponible est trop important et que le nombre de generation crées est trop faible, l'algorithme ne converge pas non plus.
+
+Par défaut nous avons fixé des paramètres permettant la convergence de l'algorithme.
+
+
