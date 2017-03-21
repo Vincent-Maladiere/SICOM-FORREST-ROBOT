@@ -23,3 +23,8 @@ def user_conf() :
     if Pa.MODE_PARAMETRAGE == 1 :
         import_MVT_SET()
     else
+
+def config_file(filename) :
+    f = open(filename,'wb')
+    
+    
