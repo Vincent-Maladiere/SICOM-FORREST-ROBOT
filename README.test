@@ -11,6 +11,29 @@ et test_module le script de test à lancer
 Le paquet test rassemble les tests sur le programme du robot
 
 Exemple pour les tests situés dans test/mvt_gene/
-	python3 -m test.mvt_gene.test_convergence
-	python3 -m test.mvt_gene.test
+	python3 test/mvt_gene/test_convergence.py
+	python3 test/mvt_gene/test.py
+
+Vous pouvez modifier les paramétres de simulation en ajoutant à la suite PA.'parametre'=valeur
+(Faire attention a ne pas mettre d'espace entre aprés et avant le '=' )
+
+Exemple :
+	python3 test/mvt_gene/test_convergence.py PA.NB_RUN=40
+
+
+Paramètres modifiables :
+	Tout les paramétres sont définis dans le module parameters.py
+"""Parametres de l'algo genetique """
+PA.MVT_NB = 3 # Nombres de mouvements possibles
+PA.NB_RUN = 50 # Age maximal d'une generation
+PA.SIZE_G = 10 # Taille d'une generation ( population )
+PA.SIZE_I = 10 # Taille d'un individu
+PA.PROBA_MUT = 0.1 # Probabilite de mutation,variable globale de la fonction de mutation dans fct_genetics.py du paquet mvt_gene
+PA.NB_IND_SLT = 3 # Nombre d'individu selectionés aprés l'évaluation de tout les individus d'une generation
+NB_RUN_MEAN = 50 # Nombre de simulation effectué dans test_convergence.py
+
+
+
+
+	
 
