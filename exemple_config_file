@@ -1,0 +1,13 @@
+0xAA ### Octet de debut 
+	0xS1 0xS2 ### Deux octets pour le nombre de bytes envoyés 
+	0xNB  ### Mode de fonctionnement
+	##Potentiellement d'autres éléments
+	
+	0xEE ### debut de la matrice de mouvement
+		0xPIN1 0xROT1
+		0xPIN1 0xROT2
+		0xPIN1 0xROT3
+		0xPIN2 0xROT1
+		.......
+0xFF
+	
