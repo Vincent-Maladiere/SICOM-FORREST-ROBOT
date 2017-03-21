@@ -2,21 +2,26 @@
 """ Test de convergence de l'algorithme genetique """
 import math,sys
 sys.path[0] = sys.path[0].replace('/test/mvt_gene','')
-from mvt_gene.genetics import *
+import mvt_gene.class_genetics as CG
+import parameters as PA
+import mvt_gene.fct_genetics as FG
 
 #############Definitions#############
 ####Variables####
 ##A priori les variables ci-dessous seront determinés par la pratique##
-mvt_nb = 3 # nombre de mouvements
-nb_run = 50 # nombre de simulation
-size_i = 10 # taille d'un individu
+PA.MVT_NB = 3 # nombre de mouvements
+PA.NB_RUN = 50 # nombre de simulation
+PA.SIZE_I = 10 # taille d'un individu
+
+fct_accoupl = FG.accouplement
+fct_evaluation = FG.evaluation
+fct_mutation = FG.mutation
 
 ##Les 3 variables ci-dessous seront celles à optimiser pour atteindre le plus rapidement la convergence##
 
-proba_mut = 0.1 # probabilite de mutation
-size_g = 10 # taille d'une generation
-nb_ind_slt = 3 # nombre d'individu selectionné chaque generation
-
+PA.PROBA_MUT = 0.1 # probabilite de mutation
+PA.SIZE_G = 10 # taille d'une generation
+PA.NB_IND_SLT = 3 # nombre d'individu selectionné chaque generation
 
 nb_run_mean = 50 # nombre de lancement afin d'estimer la convergence en moyenne, elle devrait au moins être supérieur à la moyenne + variance 
 
@@ -30,8 +35,8 @@ def eval_gene(G) :
 
 def run_algogene():
     nb_opt = 0
-    for i in range(0,nb_run):
-        gen.next_gene(nb_ind_slt,proba_mut,mvt_nb,accouplement)
+    for i in range(0,PA.NB_RUN):
+        gen.next_gene(fct_accoupl,fct_mutation)
         if nb_opt == 0 :
             if gen.liste[0].liste == vec_opt.liste : nb_opt = gen.age-1
         eval_gene(gen)
@@ -44,11 +49,11 @@ filename = None # Nom de fichier de sorti
 for i in sys.argv[1:] :
     exec(i)
     
-gen = generation(size_g,size_i)
-gen.ran_gen(mvt_nb)
+gen = CG.generation(PA.SIZE_G,PA.SIZE_I)
+gen.ran_gen()
 eval_gene(gen)
-vec_opt = individu(size_i)
-vec_opt.liste = [ mvt_nb-1 for i in range(size_i)]
+vec_opt = CG.individu(PA.SIZE_I)
+vec_opt.liste = [ PA.MVT_NB-1 for i in range(PA.SIZE_I)]
 vec_opt.give_score(evaluation)
 
 print('#############')
@@ -61,7 +66,7 @@ print()
 print('#############')
 print("Lancement de l'algorithme genetique : ")
 print()
-print('Nombre de run :',nb_run, ' Proba de mutation :',proba_mut)
+print('Nombre de run :',PA.NB_RUN, ' Proba de mutation :',PA.PROBA_MUT)
 
 nb_opt+=[run_algogene()]
 
@@ -77,14 +82,14 @@ print('Convergence en moyenne :')
 print()
 nb_opt = []
 for i in range(nb_run_mean) :
-    gen.ran_gen(mvt_nb)
+    gen.ran_gen()
     eval_gene(gen)
     nb_opt+=[run_algogene()]
 nb_conv = 0
 for i in range(nb_opt.count(0)) : nb_opt.remove(0)
 nb_conv = len(nb_opt)
-print('Avec nb_run_mean :',nb_run_mean,'| proba_mut=',proba_mut,' | nb_run=',nb_run,' | nb_ind_slt=',nb_ind_slt)
-print('size_g=',size_g,'| size_i=',size_i,'| mvt_nb=',mvt_nb) 
+print('Avec nb_run_mean :',nb_run_mean,'| proba_mut=',PA.PROBA_MUT,' | nb_run=',PA.NB_RUN,' | nb_ind_slt=',PA.NB_IND_SLT)
+print('size_g=',PA.SIZE_G,'| size_i=',PA.SIZE_I,'| mvt_nb=',PA.MVT_NB) 
 if nb_conv > 0 :
     mean_conv = sum(nb_opt)/nb_conv
     print('La convergence est atteinte en moyenne a la ', int(mean_conv),' generation')

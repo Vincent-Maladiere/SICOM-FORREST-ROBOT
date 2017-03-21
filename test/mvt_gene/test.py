@@ -1,30 +1,27 @@
 """Test de l'algorithme genetique"""
 import sys
 sys.path[0] = sys.path[0].replace('/test/mvt_gene','')
-from mvt_gene.genetics import *
-
-
-mvt_nb = 50 #
-proba_mut = 0.01 #
-size_gene = 10
-size_ind = 10
-nb_ind_selec = 3
-
+import mvt_gene.class_genetics as CG
+import mvt_gene.fct_genetics as FG
+import parameters as PA
 for i in sys.argv[1:] :
     exec(i)
 
+fct_accoupl = FG.accouplement
+fct_evaluation = FG.evaluation
+fct_mutation = FG.mutation
 print()
 print('###############')
 print('Initialisation')
 print()
-gene1=generation(size_gene,size_ind)
-gene1.ran_gen(mvt_nb)
+gene1=CG.generation(PA.SIZE_G,PA.SIZE_I)
+gene1.ran_gen()
 gene1.affiche()
 print()
 print('Utilisation fonction d evaluation')
 print()
 for i in gene1.liste:
-    i.give_score(evaluation)
+    i.give_score(fct_evaluation)
 gene1.affiche()
 
 print()
@@ -50,9 +47,9 @@ print()
 print('###############')
 print('Test Next Generation, Accouplement + mutation')
 print()
-print('Generation suivante, en ne gardant que ', nb_ind_selec , ' individus :')
-print('Avec une proba de mutation fixee a ', proba_mut )
+print('Generation suivante, en ne gardant que ', PA.NB_IND_SLT , ' individus :')
+print('Avec une proba de mutation fixee a ', PA.PROBA_MUT )
 
-gene1.next_gene(nb_ind_selec,proba_mut,mvt_nb,accouplement)
+gene1.next_gene(fct_accoupl,fct_mutation)
 
 gene1.affiche()

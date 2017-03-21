@@ -1,26 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-import random,time,copy
-
-def accouplement(population) :
-        """Fonction d'accouplement de deux individu parmi un population ; renvoi l'enfant"""
-        taille=population[0].taille
-        a=0
-        b=0
-        if(len(population) != 1) : 
-                while a==b :#on sélectionne deux individu différetn dans la population d'accouplement
-                        a=random.randrange(len(population))
-                        b=random.randrange(len(population))
-        individu1=population[a]
-        individu2=population[b]
-        coupe=random.randrange(1,taille-1)#on définit la coupe de manière aléatoire
-        enfant=individu(taille)
-        #print('          coupe',coupe,' individus ', a ,' et ', b)
-        #print('                              ',individu1.liste[:coupe])
-        #print('                              ',individu2.liste[coupe:])
-        enfant.liste = individu1.liste[:coupe] + individu2.liste[coupe:]#l'enfant est généré à partir des 2 individus selectionné coupé à la coupe
-        return enfant
-
+import random,copy
+import parameters as PA
 
 class individu(object) :
         """classe de l'individu contenant sa taille, sa série de mouvement et son score"""
@@ -29,26 +10,23 @@ class individu(object) :
                 self.liste = [0 for i in range(taille)]
                 self.score = 0
 
-        def random_gen(self,mouvements_number) :
+        def random_gen(self) :
                 """Génére aléatoirement un individu"""
                 for i in range(self.taille) :
-                        self.liste[i] = random.randrange(mouvements_number)
+                        self.liste[i] = random.randrange(PA.MVT_NB)
 
         def copy_gen(self, individu) :
                 """Génère un individu copy d'un autre individu en s'assurant que les 2 individus soient des objets différent"""
                 self.taille = individu.taille
                 self.liste = copy.copy(individu.list) #on utilise la fonction copy de la bibliothèque copy qui copie une liste de manière à en faire objet différent mais avec un contenu identique
 
-        def mutation(self,proba_mutation,mouvements_number) :
+        def mutation(self,fct_mutation) :
                 """Fait la mutation de l'individu selon une probabilité"""
-                for i in range(self.taille) :#on parcours la liste des gènes de l'individu
-                        p = random.random()
-                        if p < proba_mutation :#si le gène doit être muté on génère un nouveau gène aléatoirement 
-                                self.liste[i] = random.randrange(mouvements_number)
-        def give_score(self,fct):
+                fct_mutation(self)
+                
+        def give_score(self,fct_evaluation):
                 """ donne le score à un individu à l'aide de sa fonction(fct) d'évaluation """
-                self.score = fct(self.liste)
-                return
+                self.score = fct_evaluation(self.liste)
 
         def affiche(self) :
                 """ affiche l'individu sous la forme I : [...] || Score : score """
@@ -58,16 +36,16 @@ class individu(object) :
 
 class generation(object)  :
         """classe representant une generation, elle est definie par sa taille, ses individus et son age"""
-        def __init__(self, taille, taille_individu) :
+        def __init__(self, taille,taille_individu) :
                 self.taille = taille
                 self.liste = [individu(taille_individu) for i in range(taille) ]
                 self.age = 0
 
-        def ran_gen(self, mouvements_number) :
+        def ran_gen(self) :
                 """creation d'une generation compose d individus construit aleatoirement"""
                 self.age = 0
                 for x in self.liste :
-                        x.random_gen(mouvements_number)
+                        x.random_gen()
 
         def tri(self):
                 """tri la liste d'individu de la génération dans l'ordre de leur score décroissant"""
@@ -84,23 +62,13 @@ class generation(object)  :
                 for x in self.liste :
                     x.affiche()
 
-        def next_gene(self, nb_indiv_selec, proba_mutation, mouvements_number,func_accouplement=accouplement) :
+        def next_gene(self,fct_accoupl,fct_mutation) :
                 """Construit la génération suivante"""
                 self.tri()#tri de la génération
                 self.age +=1#on indique que la génération est maintenant la génération suivante
                 base_gene = self.copy();#on va utiliser une base copie de notre génération de base
-                for i in range(nb_indiv_selec,self.taille) :#on construit les individus pour complété la génération les nb_indiv_selec premier individu étant les individus de la génération précédente sélectionnés 
-                        self.liste[i]=func_accouplement(self.liste[:nb_indiv_selec])#on génère les enfant qui sont le résultat de l'accouplement des individus sélectionnés
-                        self.liste[i].mutation(proba_mutation,mouvements_number)#on fait muter cette nouvelle génération
+                for i in range(PA.NB_IND_SLT,self.taille) :#on construit les individus pour complété la génération les nb_indiv_selec premier individu étant les individus de la génération précédente sélectionnés 
+                        self.liste[i]=fct_accoupl(self.liste)#on génère les enfant qui sont le résultat de l'accouplement des individus sélectionnés
+                        self.liste[i].mutation(fct_mutation)#on fait muter cette nouvelle génération
                 del base_gene
                 return
-
-
-
-def mutation(liste):
-        """Fonction de mutation sur un individu"""
-        return liste
-
-def evaluation(liste):
-        """Fonction d evaluation"""
-        return random.random()
