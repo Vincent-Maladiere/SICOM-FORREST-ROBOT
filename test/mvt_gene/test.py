@@ -4,12 +4,13 @@ sys.path[0] = sys.path[0].replace('/test/mvt_gene','')
 import mvt_gene.class_genetics as CG
 import mvt_gene.fct_genetics as FG
 import parameters as PA
-for i in sys.argv[1:] :
-    exec(i)
+
 
 fct_accoupl = FG.accouplement
 fct_evaluation = FG.evaluation
-fct_mutation = FG.mutation
+fct_mutation = FG.mutation2
+for i in sys.argv[1:] :
+    exec(i)
 print()
 print('###############')
 print('Initialisation')
