@@ -41,8 +41,9 @@ def run_algogene():
     for i in range(0,PA.NB_RUN):
         gen.next_gene(fct_accoupl,fct_mutation)
         eval_gene(gen)
+        gen.tri()
         if gen.liste[0].score >= pr_score*vec_opt.score :
-            nb_opt = gen.age-1
+            nb_opt = gen.age
             return nb_opt
     return nb_opt
 
