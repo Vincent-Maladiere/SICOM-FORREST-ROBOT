@@ -40,6 +40,8 @@ def run_algogene():
         if nb_opt == 0 :
             if gen.liste[0].liste == vec_opt.liste : nb_opt = gen.age-1
         eval_gene(gen)
+        if nb_opt != 0 : return nb_opt
+        
     return nb_opt
 
 #############Debut du script#############
@@ -88,8 +90,8 @@ for i in range(nb_run_mean) :
 nb_conv = 0
 for i in range(nb_opt.count(0)) : nb_opt.remove(0)
 nb_conv = len(nb_opt)
-print('Avec nb_run_mean :',nb_run_mean,'| proba_mut=',PA.PROBA_MUT,' | nb_run=',PA.NB_RUN,' | nb_ind_slt=',PA.NB_IND_SLT)
-print('size_g=',PA.SIZE_G,'| size_i=',PA.SIZE_I,'| mvt_nb=',PA.MVT_NB) 
+print('Avec nb_run_mean :',nb_run_mean,'| PROBA_MUT=',PA.PROBA_MUT,' | NB_RUN=',PA.NB_RUN,' | NB_IND_SLT=',PA.NB_IND_SLT)
+print('SIZE_G=',PA.SIZE_G,'| SIZE_I=',PA.SIZE_I,'| MVT_NB=',PA.MVT_NB) 
 if nb_conv > 0 :
     mean_conv = sum(nb_opt)/nb_conv
     print('La convergence est atteinte en moyenne a la ', int(mean_conv),' generation')
