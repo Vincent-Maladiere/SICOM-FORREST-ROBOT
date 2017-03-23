@@ -14,8 +14,8 @@ PA.NB_RUN = 50 # nombre de simulation
 PA.SIZE_I = 10 # taille d'un individu
 
 fct_accoupl = FG.accouplement
-fct_evaluation = FG.evaluation
-fct_mutation = FG.mutation
+fct_evaluation = FG.evaluation # ne sert pas ici car nous définissons notre propre fonction d'évaluation
+fct_mutation = FG.mutation2 # la fct de mutation2 est mieux que mutation1
 
 ##Les 3 variables ci-dessous seront celles à optimiser pour atteindre le plus rapidement la convergence##
 
