@@ -2,8 +2,9 @@
 """ Test de convergence de l'algorithme genetique """
 import math,sys
 sys.path[0] = sys.path[0].replace('/test/mvt_gene','')
+
+import parameters as PA # Bien faire attention à l'ordre dans lequel les importations sont faites, l'importation doit d'abord executer le module parameters.py
 import mvt_gene.class_genetics as CG
-import parameters as PA
 import mvt_gene.fct_genetics as FG
 
 #############Definitions#############
@@ -13,9 +14,9 @@ PA.MVT_NB = 3 # nombre de mouvements
 PA.NB_RUN = 50 # nombre de simulation
 PA.SIZE_I = 10 # taille d'un individu
 
-fct_accoupl = FG.accouplement
-fct_evaluation = FG.evaluation # ne sert pas ici car nous définissons notre propre fonction d'évaluation
-fct_mutation = FG.mutation2 # la fct de mutation2 est mieux que mutation1
+PA.FCT_ACC = FG.accouplement
+PA.FCT_EVAL = FG.evaluation # ne sert pas ici car nous définissons notre propre fonction d'évaluation
+PA.FCT_MUT = FG.mutation2 # la fct de mutation2 est mieux que mutation1
 
 ##Les 3 variables ci-dessous seront celles à optimiser pour atteindre le plus rapidement la convergence##
 
@@ -39,7 +40,7 @@ def eval_gene(G) :
 def run_algogene():
     nb_opt = 0
     for i in range(0,PA.NB_RUN):
-        gen.next_gene(fct_accoupl,fct_mutation)
+        gen.next_gene(PA.FCT_ACC,PA.FCT_MUT)
         eval_gene(gen)
         gen.tri()
         if gen.liste[0].score >= pr_score*vec_opt.score :

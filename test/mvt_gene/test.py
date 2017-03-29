@@ -1,14 +1,10 @@
 """Test de l'algorithme genetique"""
 import sys
 sys.path[0] = sys.path[0].replace('/test/mvt_gene','')
+import parameters as PA
 import mvt_gene.class_genetics as CG
 import mvt_gene.fct_genetics as FG
-import parameters as PA
 
-
-fct_accoupl = FG.accouplement
-fct_evaluation = FG.evaluation
-fct_mutation = FG.mutation2
 for i in sys.argv[1:] :
     exec(i)
 print()
@@ -22,7 +18,7 @@ print()
 print('Utilisation fonction d evaluation')
 print()
 for i in gene1.liste:
-    i.give_score(fct_evaluation)
+    i.give_score(PA.FCT_EVAL)
 gene1.affiche()
 
 print()
@@ -51,6 +47,6 @@ print()
 print('Generation suivante, en ne gardant que ', PA.NB_IND_SLT , ' individus :')
 print('Avec une proba de mutation fixee a ', PA.PROBA_MUT )
 
-gene1.next_gene(fct_accoupl,fct_mutation)
+gene1.next_gene(PA.FCT_ACC,PA.FCT_MUT)
 
 gene1.affiche()
