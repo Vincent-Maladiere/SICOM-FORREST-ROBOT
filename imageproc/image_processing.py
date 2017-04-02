@@ -1,9 +1,11 @@
 import math
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
 
-#mode 0 with picture display
-#mode 1 without picture display
+DISPLAY = 0         #mode 0 with picture display
+NO_DISPLAY = 1      #mode 1 without picture display
 
 
 def find_2_opposite_points(mask):	#find to two opposite points on a mask, one on the left at the top, the other on the right at the bottom
@@ -11,27 +13,29 @@ def find_2_opposite_points(mask):	#find to two opposite points on a mask, one on
      [X,Y]=mask.shape
      x1 = 0
      y1 = 0
-     while mask[x1,y1]==0:
-          if y1 == Y-1:
-                  x1 += 1
-                  y1 = 1
-          else:
-                  y1 += 1
+     i = 0
+     cornerMask = cv2.cornerHarris(mask,2,7,0.04)
+     cornerMask = cornerMask>0.01*cornerMask.max()
+     e = [k for k,x in enumerate(cornerMask[i]) if x== True]
+     while e == []:
+          i = i+1
+          e = [k for k,x in enumerate(cornerMask[i]) if x== True]
 
-     x2 = X-1
-     y2 = Y-1
-     while mask[x2,y2]==0:
-          if y2 == 1:
-                    x2 -= 1
-                    y2 = Y-1
-          else:
-                  y2 -= 1
+     p1 = [i, e[0]]
 
-     return [x1, y1, x2, y2]
+     i = X-1
+     e = [k for k,x in enumerate(cornerMask[i]) if x== True]
+     while e == []:
+          i = i-1
+          e = [k for k,x in enumerate(cornerMask[i]) if x== True]
+
+     p2 = [i, e[0]]
+
+     return [p1[0], p1[1], p2[0], p2[1]]
 
 
 
-def a4_diago(image, threshold_hl, threshold_hh,threshold_sl,threshold_vl, mode):#return castesian length of the diagonal of the sheet paper
+def a4_diago(image, threshold_hl, threshold_hh,threshold_sl,threshold_vl, mode):     #return castesian length of the diagonal of the sheet paper
 
      i = cv2.imread(image,1)
      hsv = cv2.cvtColor(i, cv2.COLOR_BGR2HSV)
@@ -47,7 +51,7 @@ def a4_diago(image, threshold_hl, threshold_hh,threshold_sl,threshold_vl, mode):
 
      d = math.sqrt((x1-x2)**2+(y1-y2)**2)
 
-     if(mode == 0):
+     if(mode == DISPLAY):
           
           #the two found vertexes in black :
           i[x1,y1,0]=0
@@ -57,11 +61,10 @@ def a4_diago(image, threshold_hl, threshold_hh,threshold_sl,threshold_vl, mode):
           i[x2,y2,1]=0
           i[x2,y2,2]=0
           
-          cv2.imshow('mask',mask)
-          cv2.imshow('image_vertexes',i)
-
-          cv2.waitKey(0)
-          cv2.destroyAllWindows()
+          plt.imshow(mask)
+          plt.show()
+          plt.imshow(i)
+          plt.show()
 
      return d
 
@@ -80,13 +83,10 @@ def find_position(image, threshold_green_hl, threshold_green_hh,threshold_green_
      high_red= np.array([threshold_red_hh,255,255])
      maskr = cv2.inRange(hsv, low_red, high_red)
 
-     if(mode == 0):
-          cv2.imshow('image_with_detected_dots',i)
-          cv2.imshow('maskg',maskg)
-          cv2.imshow('maskr',maskr)
-          cv2.waitKey(0)
-          cv2.destroyAllWindows()
-
+     if(mode == DISPLAY):
+          plt.imshow(i)
+          plt.show()
+     
      #green dot :
      Xg = find_2_opposite_points(maskg)
      x1g = Xg[0]
@@ -130,24 +130,24 @@ def main(image1, image2, image3, threshold_green_hl, threshold_green_hh,threshol
      i = cv2.imread(image3,1)
      hsv = cv2.cvtColor(i, cv2.COLOR_BGR2HSV)
 
-     #axe drawing
-     [L,H,D]=i.shape
-     k=0
-     while(k < L):
-          l=0
-          while(l < H):
-               if(((l-yg)+(xg-k)*(yr-yg)/(xr-xg)) == 0):
-                    i[k,l,0]=0
-                    i[k,l,1]=0
-                    i[k,l,2]=0
-               l = l+1
-          k=k+1
-
      #projection (orthogonality and cartesian equation verification)
      xp = (xq*(xr-xg)*(xr-xg)+xg*(yr-yg)*(yr-yg)+(yq-yg)*(yr-yg)*(xr-xg))/((xr-xg)*(xr-xg)+(yr-yg)*(yr-yg))
      yp = yg+(xp-xg)*(yr-yg)/(xr-xg)
 
-     if(mode == 0):
+     if(mode == DISPLAY):
+          #axe drawing
+          [L,H,D]=i.shape
+          k=0
+          while(k < L):
+               l=0
+               while(l < H):
+                    if(((l-yg)+(xg-k)*(yr-yg)/(xr-xg)) == 0):
+                         i[k,l,0]=0
+                         i[k,l,1]=0
+                         i[k,l,2]=0
+                    l = l+1
+               k=k+1
+
           i[int(round(xp)),int(round(yp)),0]=0
           i[int(round(xp)),int(round(yp)),1]=0
           i[int(round(xp)),int(round(yp)),2]=255
@@ -168,34 +168,38 @@ def main(image1, image2, image3, threshold_green_hl, threshold_green_hh,threshol
           i[int(round(xp)),int(round(yp))-1,1]=0
           i[int(round(xp)),int(round(yp))-1,2]=255
 
-          i[xo,yo,0]=0
-          i[xo,yo,1]=0
-          i[xo,yo,2]=255
+          xoe = int(round(xo))
+          yoe = int(round(yo))
+          xqe = int(round(xq))
+          yqe = int(round(yq))
 
-          i[xo+1,yo,0]=0
-          i[xo+1,yo,1]=0
-          i[xo+1,yo,2]=255
+          i[xoe,yoe,0]=0
+          i[xoe,yoe,1]=0
+          i[xoe,yoe,2]=255
 
-          i[xo-1,yo,0]=0
-          i[xo-1,yo,1]=0
-          i[xo-1,yo,2]=255
+          i[xoe+1,yoe,0]=0
+          i[xoe+1,yoe,1]=0
+          i[xoe+1,yoe,2]=255
 
-          i[xo,yo+1,0]=0
-          i[xo,yo+1,1]=0
-          i[xo,yo+1,2]=255
+          i[xoe-1,yoe,0]=0
+          i[xoe-1,yoe,1]=0
+          i[xoe-1,yoe,2]=255
 
-          i[xo,yo-1,0]=0
-          i[xo,yo-1,1]=0
-          i[xo,yo-1,2]=255
+          i[xoe,yoe+1,0]=0
+          i[xoe,yoe+1,1]=0
+          i[xoe,yoe+1,2]=255
 
-          i[xq,yq,0]=0
-          i[xq,yq,1]=0
-          i[xq,yq,2]=0
+          i[xoe,yoe-1,0]=0
+          i[xoe,yoe-1,1]=0
+          i[xoe,yoe-1,2]=255
+
+          i[xqe,yqe,0]=0
+          i[xqe,yqe,1]=0
+          i[xqe,yqe,2]=0
      
-          cv2.imshow('Initial and projected final position in red',i)
-          cv2.waitKey(0)
-          cv2.destroyAllWindows()
-
+          plt.imshow(i)
+          plt.show()
+          
      d = math.sqrt((xq-xo)*(xq-xo)+(yq-yo)*(yq-yo))*a4rd/a4cd
      dp = math.sqrt((xp-xo)*(xp-xo)+(yp-yo)*(yp-yo))*a4rd/a4cd
 
