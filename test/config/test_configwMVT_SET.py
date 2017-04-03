@@ -9,6 +9,7 @@ import binascii
 
 for i in sys.argv[1:] :
     exec(i)
+
 print()
 print('###############')
 print('Initialisation')
