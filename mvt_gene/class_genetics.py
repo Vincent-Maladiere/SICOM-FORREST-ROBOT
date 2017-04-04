@@ -24,9 +24,9 @@ class individu(object) :
                 """Fait la mutation de l'individu selon une probabilité"""
                 fct_mutation(self)
                 
-        def give_score(self,fct_evaluation):
-                """ donne le score à un individu à l'aide de sa fonction(fct) d'évaluation """
-                self.score = fct_evaluation(self.liste)
+        def give_score(self,score):
+                """ donne le score à un individu """
+                self.score = score
 
         def affiche(self) :
                 """ affiche l'individu sous la forme I : [...] || Score : score """

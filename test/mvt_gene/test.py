@@ -18,7 +18,7 @@ print()
 print('Utilisation fonction d evaluation')
 print()
 for i in gene1.liste:
-    i.give_score(PA.FCT_EVAL)
+    PA.FCT_EVAL(i)
 gene1.affiche()
 
 print()

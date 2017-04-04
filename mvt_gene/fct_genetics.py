@@ -31,16 +31,16 @@ def accouplement2(ref_pop) :
         a=0
         b=0
         if(len(population) != 1) : 
-                while a==b :#on sélectionne deux individu différent dans la population d'accouplement
+                while a==b :# on sélectionne deux individu différent dans la population d'accouplement
                         a=random.randrange(len(population))
                         b=random.randrange(len(population))
         individu1=population[a]
         individu2=population[b]
         coupe=random.randrange(1,taille-1)#on définit la coupe de manière aléatoire
         enfant=CG.individu(taille)
-        #print('          coupe',coupe,' individus ', a ,' et ', b)
-        #print('                              ',individu1.liste[:coupe])
-        #print('                              ',individu2.liste[coupe:])
+        # print('          coupe',coupe,' individus ', a ,' et ', b)
+        # print('                              ',individu1.liste[:coupe])
+        # print('                              ',individu2.liste[coupe:])
         enfant.liste = individu1.liste[:coupe] + individu2.liste[coupe:]#l'enfant est généré à partir des 2 individus selectionné coupé à la coupe
         return enfant
 
@@ -128,6 +128,11 @@ def mutation4(individu):
         #print(n)
 
         
-def evaluation(liste):
+def evaluation(individu):
         """Fonction d evaluation"""
-        return random.random()
+        individu.give_score(random.random())
+
+def evaluation_robot(individu,scalar):
+        """Fonction d evaluation du deplacement du robot"""
+        individu.give_score(scalar)
+

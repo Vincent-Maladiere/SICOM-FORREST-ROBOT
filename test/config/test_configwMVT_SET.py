@@ -53,7 +53,7 @@ for i in range(3) :
     print()
     print('Individu ',i)
     s = 'Individu_' + str(i) + '.bin'
-    cfg.ind_file(s,gene1.liste[i])
+    cfg.ind_file(gene1.liste[i],filename=s)
     gene1.liste[i].affiche()
     f=open(s,'rb')
     print(binascii.b2a_hex(f.read()))
