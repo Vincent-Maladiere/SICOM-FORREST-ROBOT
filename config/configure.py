@@ -20,15 +20,15 @@ def trslt_MVT_SET() :
                 try :
                     l+=[PA.MVT_MAT.index(j)]
                 except ValueError :
-                    raise ValueError('Veuillez redéfinir la matrice MVT_SET dans le module paramêtres, le tuple ',j,' n a pas ete trouve dans la matrice de mouvement MVT_MAT ')
+                    raise ValueError('Veuillez redéfinir la matrice MVT_SET dans le module paramêtres, le tuple ',j,' n est pas défini dans la matrice de mouvement MVT_MAT ')
             PA.MVT_REF+=[l]
-            
+
         else :
             try :
                 PA.MVT_REF+=[PA.MVT_MAT.index(i)]
             except ValueError :
-                raise ValueError('Veuillez redéfinir la matrice MVT_SET dans le module paramêtres, le tuple ',j,' n a pas ete trouve dans la matrice de mouvement MVT_MAT ')
-            
+                raise ValueError('Veuillez redéfinir la matrice MVT_SET dans le module paramêtres, le tuple ',j,' n est pas défini dans la matrice de mouvement MVT_MAT ')
+
 
 def user_conf(filename='RobotCfg.bin') :
     create_MVT_MAT()
@@ -38,6 +38,7 @@ def user_conf(filename='RobotCfg.bin') :
     elif PA.MODE_PARAMETRAGE == 0 :
         PA.MVT_REF = [ i for i in range(len(PA.MVT_MAT)) ]
     PA.MVT_NB = len(PA.MVT_REF)
+    #init_imageproc()
 
 
 def config_file(filename) :
@@ -52,7 +53,7 @@ def config_file(filename) :
     f.write(b'\xFF')
     f.close()
 
-def ind_file(filename,individu) :
+def ind_file(individu,filename='ind.bin') :
     f = open(filename,'wb')
     f.write(b'\xAA')
     s=1

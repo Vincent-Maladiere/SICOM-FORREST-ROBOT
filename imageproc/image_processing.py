@@ -7,7 +7,6 @@ import matplotlib.image as mpimg
 DISPLAY = 0         #mode 0 with picture display
 NO_DISPLAY = 1      #mode 1 without picture display
 
-
 def find_2_opposite_points(mask):	#find to two opposite points on a mask, one on the left at the top, the other on the right at the bottom
 
      [X,Y]=mask.shape
@@ -52,7 +51,7 @@ def a4_diago(image, threshold_hl, threshold_hh,threshold_sl,threshold_vl, mode):
      d = math.sqrt((x1-x2)**2+(y1-y2)**2)
 
      if(mode == DISPLAY):
-          
+
           #the two found vertexes in black :
           i[x1,y1,0]=0
           i[x1,y1,1]=0
@@ -60,7 +59,7 @@ def a4_diago(image, threshold_hl, threshold_hh,threshold_sl,threshold_vl, mode):
           i[x2,y2,0]=0
           i[x2,y2,1]=0
           i[x2,y2,2]=0
-          
+
           plt.imshow(mask)
           plt.show()
           plt.imshow(i)
@@ -71,7 +70,7 @@ def a4_diago(image, threshold_hl, threshold_hh,threshold_sl,threshold_vl, mode):
 
 
 def find_position(image, threshold_green_hl, threshold_green_hh,threshold_green_sl, threshold_red_hl, threshold_red_hh,threshold_red_sl, threshold_vl, mode):
-     
+
      i = cv2.imread(image,1)
      hsv = cv2.cvtColor(i, cv2.COLOR_BGR2HSV)
 
@@ -86,7 +85,7 @@ def find_position(image, threshold_green_hl, threshold_green_hh,threshold_green_
      if(mode == DISPLAY):
           plt.imshow(i)
           plt.show()
-     
+
      #green dot :
      Xg = find_2_opposite_points(maskg)
      x1g = Xg[0]
@@ -114,7 +113,7 @@ def find_position(image, threshold_green_hl, threshold_green_hh,threshold_green_
 
 
 def main(image1, image2, image3, threshold_green_hl, threshold_green_hh,threshold_green_sl, threshold_red_hl, threshold_red_hh,threshold_red_sl, threshold_vl, mode):
-     
+
      #scale, cartesian distance <=> real distance      (has to run one time only at the beginning of the test series)
      a4rd = 36.3 #cm
      a4cd = a4_diago(image1, threshold_green_hl, threshold_green_hh, threshold_green_sl, threshold_vl, mode)
@@ -196,10 +195,10 @@ def main(image1, image2, image3, threshold_green_hl, threshold_green_hh,threshol
           i[xqe,yqe,0]=0
           i[xqe,yqe,1]=0
           i[xqe,yqe,2]=0
-     
+
           plt.imshow(i)
           plt.show()
-          
+
      d = math.sqrt((xq-xo)*(xq-xo)+(yq-yo)*(yq-yo))*a4rd/a4cd
      dp = math.sqrt((xp-xo)*(xp-xo)+(yp-yo)*(yp-yo))*a4rd/a4cd
 
@@ -211,4 +210,3 @@ def main(image1, image2, image3, threshold_green_hl, threshold_green_hh,threshol
      else:
           print("He has travelled a distance of ",dp," cm in the wrong direction.")
           return [d,dp,0]
-
