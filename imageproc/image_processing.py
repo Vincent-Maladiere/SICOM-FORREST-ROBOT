@@ -3,26 +3,8 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-#import parameters as PA
+import parameters as PA
 
-THRES_G_HUE_LOWER = 40      #green
-THRES_G_HUE_UPPER = 60
-THRES_G_SAT_LOWER = 20
-
-<<<<<<< HEAD
-THRES_R_HUE_LOWER = 0       #red
-THRES_R_HUE_UPPER = 15
-THRES_R_SAT_LOWER = 100
-
-THRES_VALUE_LOWER = 200
-
-DISPLAY = 0              #mode 0 with picture display
-NO_DISPLAY = 1           #mode 1 without picture display
-A4_CART_DIAGO = 0        #cartesian length of the diagonal of the sheet paper
-A4_REAL_DIAGO = 36.3     #cm
-
-=======
->>>>>>> 6174636d673a2eae75d0604a7ed0647584c158bb
 def find_2_opposite_points(mask):	#find to two opposite points on a mask, one on the left at the top, the other on the right at the bottom
 
      [X,Y]=mask.shape
