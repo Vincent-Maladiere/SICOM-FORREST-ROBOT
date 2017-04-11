@@ -3,18 +3,16 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-
-DISPLAY = 0         #mode 0 with picture display
-NO_DISPLAY = 1      #mode 1 without picture display
+import parameters as PA
 
 def find_2_opposite_points(mask):	#find to two opposite points on a mask, one on the left at the top, the other on the right at the bottom
 
      [X,Y]=mask.shape
      x1 = 0
      y1 = 0
-     i = 0
      cornerMask = cv2.cornerHarris(mask,2,7,0.04)
      cornerMask = cornerMask>0.01*cornerMask.max()
+     i = 0
      e = [k for k,x in enumerate(cornerMask[i]) if x== True]
      while e == []:
           i = i+1
@@ -34,12 +32,12 @@ def find_2_opposite_points(mask):	#find to two opposite points on a mask, one on
 
 
 
-def a4_diago(image, threshold_hl, threshold_hh,threshold_sl,threshold_vl, mode):     #return castesian length of the diagonal of the sheet paper
+def a4_diago(image, mode):     #return cartesian length of the diagonal of the sheet paper
 
      i = cv2.imread(image,1)
      hsv = cv2.cvtColor(i, cv2.COLOR_BGR2HSV)
-     low_green = np.array([threshold_hl,threshold_sl,threshold_vl])
-     high_green= np.array([threshold_hh,255,255])
+     low_green = np.array([THRES_G_HUE_LOWER,THRES_G_SAT_LOWER,THRES_VALUE_LOWER])
+     high_green= np.array([THRES_G_HUE_UPPER,255,255])
      mask = cv2.inRange(hsv, low_green, high_green)
 
      X = find_2_opposite_points(mask)
@@ -68,18 +66,17 @@ def a4_diago(image, threshold_hl, threshold_hh,threshold_sl,threshold_vl, mode):
      return d
 
 
-
-def find_position(image, threshold_green_hl, threshold_green_hh,threshold_green_sl, threshold_red_hl, threshold_red_hh,threshold_red_sl, threshold_vl, mode):
-
+def find_position(image, mode):
+     
      i = cv2.imread(image,1)
      hsv = cv2.cvtColor(i, cv2.COLOR_BGR2HSV)
 
-     low_green = np.array([threshold_green_hl,threshold_green_sl,threshold_vl])
-     high_green= np.array([threshold_green_hh,255,255])
+     low_green = np.array([THRES_G_HUE_LOWER,THRES_G_SAT_LOWER,THRES_VALUE_LOWER])
+     high_green= np.array([THRES_G_HUE_UPPER,255,255])
      maskg = cv2.inRange(hsv, low_green, high_green)
 
-     low_red = np.array([threshold_red_hl,threshold_red_sl,threshold_vl])
-     high_red= np.array([threshold_red_hh,255,255])
+     low_red = np.array([THRES_R_HUE_LOWER,THRES_R_SAT_LOWER,THRES_VALUE_LOWER])
+     high_red= np.array([THRES_R_HUE_UPPER,255,255])
      maskr = cv2.inRange(hsv, low_red, high_red)
 
      if(mode == DISPLAY):
@@ -111,19 +108,20 @@ def find_position(image, threshold_green_hl, threshold_green_hh,threshold_green_
      return [(x3g,y3g),(x3r,y3r)]
 
 
+def init_imageproc(image1, mode):
 
-def main(image1, image2, image3, threshold_green_hl, threshold_green_hh,threshold_green_sl, threshold_red_hl, threshold_red_hh,threshold_red_sl, threshold_vl, mode):
+     global A4_CART_DIAGO
+     A4_CART_DIAGO = a4_diago(image1, mode)
+     
 
-     #scale, cartesian distance <=> real distance      (has to run one time only at the beginning of the test series)
-     a4rd = 36.3 #cm
-     a4cd = a4_diago(image1, threshold_green_hl, threshold_green_hh, threshold_green_sl, threshold_vl, mode)
-
+def distance_crossed(image2, image3, mode):
+     
      #initial position
-     [(xg,yg),(xr,yr)] = find_position(image2, threshold_green_hl, threshold_green_hh,threshold_green_sl, threshold_red_hl, threshold_red_hh,threshold_red_sl, threshold_vl, mode)
+     [(xg,yg),(xr,yr)] = find_position(image2, mode)
      [xo,yo] = [(xg+xr)/2,(yg+yr)/2]
 
      #final position
-     [(xgq,ygq),(xrq,yrq)] = find_position(image3, threshold_green_hl, threshold_green_hh,threshold_green_sl, threshold_red_hl, threshold_red_hh,threshold_red_sl, threshold_vl, mode)
+     [(xgq,ygq),(xrq,yrq)] = find_position(image3, mode)
      (xq,yq) = ((xgq+xrq)/2,(ygq+yrq)/2)
 
      i = cv2.imread(image3,1)
@@ -198,15 +196,16 @@ def main(image1, image2, image3, threshold_green_hl, threshold_green_hh,threshol
 
           plt.imshow(i)
           plt.show()
-
-     d = math.sqrt((xq-xo)*(xq-xo)+(yq-yo)*(yq-yo))*a4rd/a4cd
-     dp = math.sqrt((xp-xo)*(xp-xo)+(yp-yo)*(yp-yo))*a4rd/a4cd
+          
+     d = math.sqrt((xq-xo)*(xq-xo)+(yq-yo)*(yq-yo))*A4_REAL_DIAGO/A4_CART_DIAGO
+     dp = math.sqrt((xp-xo)*(xp-xo)+(yp-yo)*(yp-yo))*A4_REAL_DIAGO/A4_CART_DIAGO
 
      print("Forrest has travelled a distance of ",d," cm.")
 
      if((xr >= xo and xp >= xo and yr >= yo and yp >= yo) or (xr <= xo and xp <= xo and yr >= yo and yp >= yo) or (xr <= xo and xp <= xo and yr <= yo and yp <= yo) or (xr >= xo and xp >= xo and yr <= yo and yp <= yo)):
           print("He has travelled a distance of ",dp," cm in the right direction.")
-          return [d,dp,1]
+          return dp
      else:
           print("He has travelled a distance of ",dp," cm in the wrong direction.")
-          return [d,dp,0]
+          dp = -1*dp
+          return dp

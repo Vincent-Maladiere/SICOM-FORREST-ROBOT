@@ -18,7 +18,23 @@ SIZE_I = 10
 NB_IND_SLT = 3
 NB_RUN_MEAN = 50
 
+<<<<<<< HEAD
+# Parametres de l'algo de traitement d'image
+THRES_G_HUE_LOWER = 40      #green
+THRES_G_HUE_UPPER = 60
+THRES_G_SAT_LOWER = 20
+
+THRES_R_HUE_LOWER = 0       #red
+THRES_R_HUE_UPPER = 15
+THRES_R_SAT_LOWER = 100
+
+THRES_VALUE_LOWER = 200
+
+
+##Fonctions choisies dans le module fct_genetics du paquet mvt_gene
+=======
 # Fonctions choisies dans le module fct_genetics du paquet mvt_gene
+>>>>>>> 6174636d673a2eae75d0604a7ed0647584c158bb
 FCT_MUT = FG.mutation2
 FCT_EVAL = FG.evaluation
 FCT_ACC = FG.accouplement
