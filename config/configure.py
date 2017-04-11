@@ -57,7 +57,7 @@ def ind_file(individu,filename='ind.bin') :
     f = open(filename,'wb')
     f.write(b'\xAA')
     s=1
-    f.write(bytes(2))
+    f.write(bytes(1))
     s+=2
     for i in individu.liste :
         if type(PA.MVT_REF[i]) == list :
@@ -72,8 +72,8 @@ def ind_file(individu,filename='ind.bin') :
             s+=1
     f.write(b'\xFF')
     s+=1
-    if s > 65536 :
+    if s > 255 :
         raise Exception('Fichier de configuration trop grand ')
     f.seek(1,0)
-    f.write(s.to_bytes(2,'big'))
+    f.write(s.to_bytes(1,'big'))
     f.close()
