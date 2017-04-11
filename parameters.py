@@ -35,5 +35,5 @@ DEG_ROT = [ 0, 45, 90 ]
 # Matrice de mouvements imposée
 MVT_SET = []
 
-# Paramétres de fonctionnemen
+# Paramétres de fonctionnement
 MODE_PARAMETRAGE = 1
