@@ -1,4 +1,5 @@
 import math
+import os
 import parameters as PA
 import cv2
 import numpy as np
@@ -37,7 +38,7 @@ def a4_diago(image, mode):     #return cartesian length of the diagonal of the s
      hsv = cv2.cvtColor(i, cv2.COLOR_BGR2HSV)
      low_green = np.array([PA.THRES_G_HUE_LOWER,PA.THRES_G_SAT_LOWER,PA.THRES_VALUE_LOWER])
      high_green= np.array([PA.THRES_G_HUE_UPPER,255,255])
-     mask = cv2.inRange(hsv, low_green, high_green)
+     mask = cv2.medianBlur(cv2.inRange(hsv, low_green, high_green),3)
 
      X = find_2_opposite_points(mask)
      x1 = X[0]
@@ -72,11 +73,11 @@ def find_position(image, mode):
 
      low_green = np.array([PA.THRES_G_HUE_LOWER,PA.THRES_G_SAT_LOWER,PA.THRES_VALUE_LOWER])
      high_green= np.array([PA.THRES_G_HUE_UPPER,255,255])
-     maskg = cv2.inRange(hsv, low_green, high_green)
+     maskg = cv2.medianBlur(cv2.inRange(hsv, low_green, high_green),3)
 
      low_red = np.array([PA.THRES_R_HUE_LOWER,PA.THRES_R_SAT_LOWER,PA.THRES_VALUE_LOWER])
      high_red= np.array([PA.THRES_R_HUE_UPPER,255,255])
-     maskr = cv2.inRange(hsv, low_red, high_red)
+     maskr = cv2.medianBlur(cv2.inRange(hsv, low_red, high_red),3)
 
      if(mode == "DISPLAY"):
           plt.imshow(i)
@@ -107,10 +108,10 @@ def find_position(image, mode):
      return [(x3g,y3g),(x3r,y3r)]
 
 
-def init_imageproc(image1, mode):
-
+def init_imageproc(mode):
+     os.system("fswebcam -r 352x288 --no-banner a4_init.jpg")
      global A4_CART_DIAGO
-     A4_CART_DIAGO = a4_diago(image1, mode)
+     A4_CART_DIAGO = a4_diago("a4_init.jpg", mode)
 
 
 def distance_crossed(image2, image3, mode):
