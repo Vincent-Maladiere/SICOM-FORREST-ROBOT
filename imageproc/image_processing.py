@@ -109,7 +109,10 @@ def find_position(image, mode):
 
 
 def init_imageproc(mode):
-     os.system("fswebcam -r 352x288 --no-banner a4_init.jpg")
+     try:
+          sh.ls(os.system("fswebcam -r 352x288 --no-banner a4_init.jpg"))
+     except:
+          print('Aucune webcam ne semble connectée. Le traitement se poursuit avec l image a4_init.jpg par défaut.')
      global A4_CART_DIAGO
      A4_CART_DIAGO = a4_diago("a4_init.jpg", mode)
 
