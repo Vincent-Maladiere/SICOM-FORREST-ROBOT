@@ -9,7 +9,7 @@ DISPLAY = 1
 NO_DISPLAY = 0
 
 
-def find_2_opposite_points(mask,corner):	#find to two opposite points on a mask, one on the left at the top, the other on the right at the bottom
+def find_2_opposite_points(mask,corner):	#find to two opposite points on a mask, one on the left at the top, the other on the right at the bottom. Corner detection if corner is True (a4)
 
      [X,Y]=mask.shape
      x1 = 0
@@ -26,7 +26,7 @@ def find_2_opposite_points(mask,corner):	#find to two opposite points on a mask,
           try:
                e = [k for k,x in enumerate(mask[i]) if x== True]
           except:
-               raise Exception('The target was not detected. Make sure that you are using the rigth thresholding constants and the target is in the field of vision')
+               raise Exception('The target was not detected. Make sure that you are using the right thresholding constants and the target is in the field of vision')
           
      p1 = [i, e[0]]
 
@@ -37,7 +37,7 @@ def find_2_opposite_points(mask,corner):	#find to two opposite points on a mask,
           try:
                e = [k for k,x in enumerate(mask[i]) if x== True]
           except:
-               raise Exception('The target was not detected. Make sure that you are using the rigth thresholding constants and the target is in the field of vision')
+               raise Exception('The target was not detected. Make sure that you are using the right thresholding constants and the target is in the field of vision')
 
      p2 = [i, e[0]]
 
