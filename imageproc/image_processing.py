@@ -9,7 +9,7 @@ DISPLAY = 1
 NO_DISPLAY = 0
 
 
-def find_2_opposite_points(mask,corner):	#find to two opposite points on a mask, one on the left at the top, the other on the right at the bottom. Corner detection if corner is True (a4)
+def find_2_opposite_points(mask,corner):	#find two opposite points on a mask, one on the left at the top, the other on the right at the bottom. Corner detection if corner is True (a4)
 
      [X,Y]=mask.shape
      x1 = 0
