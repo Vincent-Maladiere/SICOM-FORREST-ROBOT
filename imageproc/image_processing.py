@@ -5,27 +5,39 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
+DISPLAY = 1
+NO_DISPLAY = 0
 
-def find_2_opposite_points(mask):	#find to two opposite points on a mask, one on the left at the top, the other on the right at the bottom
+
+def find_2_opposite_points(mask,corner):	#find to two opposite points on a mask, one on the left at the top, the other on the right at the bottom
 
      [X,Y]=mask.shape
      x1 = 0
      y1 = 0
-     cornerMask = cv2.cornerHarris(mask,2,7,0.04)
-     cornerMask = cornerMask>0.01*cornerMask.max()
+     
+     if(corner):
+          mask = cv2.cornerHarris(mask,2,7,0.04)
+          
+     mask = mask>0.01*mask.max()
      i = 0
-     e = [k for k,x in enumerate(cornerMask[i]) if x== True]
+     e = [k for k,x in enumerate(mask[i]) if x== True]
      while e == []:
           i = i+1
-          e = [k for k,x in enumerate(cornerMask[i]) if x== True]
-
+          try:
+               e = [k for k,x in enumerate(mask[i]) if x== True]
+          except:
+               raise Exception('The target was not detected. Make sure that you are using the rigth thresholding constants and the target is in the field of vision')
+          
      p1 = [i, e[0]]
 
      i = X-1
-     e = [k for k,x in enumerate(cornerMask[i]) if x== True]
+     e = [k for k,x in enumerate(mask[i]) if x== True]
      while e == []:
           i = i-1
-          e = [k for k,x in enumerate(cornerMask[i]) if x== True]
+          try:
+               e = [k for k,x in enumerate(mask[i]) if x== True]
+          except:
+               raise Exception('The target was not detected. Make sure that you are using the rigth thresholding constants and the target is in the field of vision')
 
      p2 = [i, e[0]]
 
@@ -40,7 +52,7 @@ def a4_diago(image, mode):     #return cartesian length of the diagonal of the s
      high_green= np.array([PA.THRES_G_HUE_UPPER,255,255])
      mask = cv2.medianBlur(cv2.inRange(hsv, low_green, high_green),3)
 
-     X = find_2_opposite_points(mask)
+     X = find_2_opposite_points(mask,True)
      x1 = X[0]
      x2 = X[2]
      y1 = X[1]
@@ -48,7 +60,7 @@ def a4_diago(image, mode):     #return cartesian length of the diagonal of the s
 
      d = math.sqrt((x1-x2)**2+(y1-y2)**2)
 
-     if(mode == "DISPLAY"):
+     if(mode == DISPLAY):
 
           #the two found vertexes in black :
           i[x1,y1,0]=0
@@ -74,17 +86,20 @@ def find_position(image, mode):
      low_green = np.array([PA.THRES_G_HUE_LOWER,PA.THRES_G_SAT_LOWER,PA.THRES_VALUE_LOWER])
      high_green= np.array([PA.THRES_G_HUE_UPPER,255,255])
      maskg = cv2.medianBlur(cv2.inRange(hsv, low_green, high_green),3)
+     plt.figure('maskg')
+     plt.imshow(maskg)
+     plt.show
 
      low_red = np.array([PA.THRES_R_HUE_LOWER,PA.THRES_R_SAT_LOWER,PA.THRES_VALUE_LOWER])
      high_red= np.array([PA.THRES_R_HUE_UPPER,255,255])
      maskr = cv2.medianBlur(cv2.inRange(hsv, low_red, high_red),3)
-
-     if(mode == "DISPLAY"):
+     
+     if(mode == DISPLAY):
           plt.imshow(i)
           plt.show()
 
      #green dot :
-     Xg = find_2_opposite_points(maskg)
+     Xg = find_2_opposite_points(maskg,False)
      x1g = Xg[0]
      x2g = Xg[2]
      y1g = Xg[1]
@@ -93,9 +108,9 @@ def find_position(image, mode):
      #the middle point of the green dot :
      x3g = (x1g+x2g)/2
      y3g = (y1g+y2g)/2
-
+     
      #red dot :
-     Xr = find_2_opposite_points(maskr)
+     Xr = find_2_opposite_points(maskr,False)
      x1r = Xr[0]
      x2r = Xr[2]
      y1r = Xr[1]
@@ -104,7 +119,7 @@ def find_position(image, mode):
      #the middle point of the red dot :
      x3r = (x1r+x2r)/2
      y3r = (y1r+y2r)/2
-
+     
      return [(x3g,y3g),(x3r,y3r)]
 
 
@@ -112,7 +127,7 @@ def init_imageproc(mode):
      try:
           sh.ls(os.system("fswebcam -r 352x288 --no-banner a4_init.jpg"))
      except:
-          print('Aucune webcam ne semble connectée. Le traitement se poursuit avec l image a4_init.jpg par défaut.')
+          print('No webcam was detected. The processing is going on with default picture a4_init.jpg.')
      global A4_CART_DIAGO
      A4_CART_DIAGO = a4_diago("a4_init.jpg", mode)
 
@@ -134,7 +149,7 @@ def distance_crossed(image2, image3, mode):
      xp = (xq*(xr-xg)*(xr-xg)+xg*(yr-yg)*(yr-yg)+(yq-yg)*(yr-yg)*(xr-xg))/((xr-xg)*(xr-xg)+(yr-yg)*(yr-yg))
      yp = yg+(xp-xg)*(yr-yg)/(xr-xg)
 
-     if(mode == "DISPLAY"):
+     if(mode == DISPLAY):
           #axe drawing
           [L,H,D]=i.shape
           k=0
@@ -147,7 +162,7 @@ def distance_crossed(image2, image3, mode):
                          i[k,l,2]=0
                     l = l+1
                k=k+1
-
+          
           i[int(round(xp)),int(round(yp)),0]=0
           i[int(round(xp)),int(round(yp)),1]=0
           i[int(round(xp)),int(round(yp)),2]=255
