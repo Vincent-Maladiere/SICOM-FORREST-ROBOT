@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import mvt_gene.fct_genetics as FG
+import imageproc.image_processing as IMPROC
+
 
 # PARAMETRES NON MODIFIABLES
 # Modes de fonctionnement
@@ -20,7 +22,8 @@ NB_RUN_MEAN = 50
 
 
 # Parametres de l'algo de traitement d'image
-MODE = "NO_DISPLAY"
+
+MODE = IMPROC.NO_DISPLAY
 
 THRES_G_HUE_LOWER = 40      #green
 THRES_G_HUE_UPPER = 60

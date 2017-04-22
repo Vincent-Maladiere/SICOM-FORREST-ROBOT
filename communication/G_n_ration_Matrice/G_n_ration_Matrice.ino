@@ -70,62 +70,66 @@ void loop() {
 // Reception de l'ensemble de l'information, traitement ensuite.  
     int taille; 
     int j;  
-    int matrice[256][2]; 
-    char inData[BUFFER_SIZE_MAX];
+    unsigned char matrice[256][2]; 
+    unsigned char inData[BUFFER_SIZE_MAX];
     unsigned long currentMillis = millis();
     unsigned long diff = 0;
     uint8_t inIndex = 0;
+
     while(!Serial.available());
     while((diff < (interval + bonus)) && (inIndex < (sizeof(inData)/sizeof(inData[0])))) {
-          Serial.print("current: ");
-          Serial.println(currentMillis);
-          Serial.print("previous: ");
-          Serial.println(previousMillis);
-          
+          Serial.println("Data detected");
           if (Serial.available() > 0) {
               Serial.println("reading");
               // read the incoming byte:
               inData[inIndex] = Serial.read();
               //Serial.write(inData[inIndex++]);
-              Serial.println(inData[inIndex]++);
+              Serial.println(inData[inIndex]);
+              inIndex++;
               previousMillis = currentMillis;
           }
-          
           currentMillis = millis();
           diff = currentMillis - previousMillis;
-      }
-
-      delay(500);
-      digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-      delay(500);                       // wait for a second
-      digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-      delay(500);
-      digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-      delay(500);                       // wait for a second
-      digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-      delay(500); 
-      digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-      delay(500);                       // wait for a second
-      digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-      delay(500); 
-      digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
-      delay(500);                       // wait for a second
-      digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
-      delay(500);
-      digitalWrite(LED_BUILTIN, HIGH);
+   }
+   Serial.println("Recu :");
+   for(j=0;j<BUFFER_SIZE_MAX;j++){
+        Serial.print(inData[j]);
+   }
+   Serial.println("Fini :");
+    delay(500);
+    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+    delay(500);                       // wait for a second
+    digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+    delay(500);
+    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+    delay(500);                       // wait for a second
+    digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+    delay(500); 
+    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+    delay(500);                       // wait for a second
+    digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+    delay(500); 
+    digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level)
+    delay(500);                       // wait for a second
+    digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+    delay(500);
+    digitalWrite(LED_BUILTIN, HIGH);
       
-      //Serial.println("HelloD");
+    Serial.println("HelloD");
 
    
       //Construction 
-      
-      if(inData[0] == 0xAA){
+      Serial.println(inData[0]);
+      if(inData[0] == 170){
           taille = inData[1]<<8 + inData[2]; //0xS1<<8 + 0xS2 , 0xS1 shifté à gauche sur 8 bits
+          Serial.println("Taille de la sequence ");
+          Serial.println(taille);
           if(BUFFER_SIZE_MAX < taille){
             //pb
           }
           char mode = inData[3];
           int i;
+          Serial.println("Construction de la matrice");
           for(i=0; i<taille-2; i++){
                matrice[i][0] = inData[i];   //numéro du Pin
                matrice[i][1] = inData[i+1]; //rotation associée  /!\ segmentation 
@@ -143,7 +147,7 @@ void loop() {
  
       delay(1000);
 
-    
+     
       if(Serial.read() == 0){    //Reception de l'instruction 
           while(1){
               int newData[256];  //chgmnt char -> int
