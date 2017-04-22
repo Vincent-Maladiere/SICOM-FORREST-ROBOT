@@ -7,8 +7,6 @@ import mvt_gene.fct_genetics as FG
 import config.configure as cfg
 import binascii
 
-for i in sys.argv[1:] :
-    exec(i)
 print()
 print('###############')
 print('Initialisation')

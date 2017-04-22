@@ -1,15 +1,26 @@
 # -*- coding: utf-8 -*-
 import mvt_gene.fct_genetics as FG
-import imageproc.image_processing as IMPROC
 
 
 # PARAMETRES NON MODIFIABLES
-# Modes de fonctionnement
+# Modes de fonctionnement global
 MODE_SBS,MODE_DEBUG,MODE_NORMAL = 0,1,2
-# Matrice des mouvements
+
+# Matrices de l'algo genetique
+## Matrice des mouvements
 MVT_MAT = []
-# Matrice de reference
+## Matrice de reference
 MVT_REF = []
+
+# Parametres image_proc
+DISPLAY = 1
+NO_DISPLAY = 0
+
+# Parametres config
+BSIZE_IND = 1 # Taille maximal en octet pour les fichiers binaires des individus
+SIZE_IND = 2**(8*BSIZE_IND) - 1
+BSIZE_CONF = 2 # Idem pour le fichier binaire de configuration
+SIZE_CONF = 2**(8*BSIZE_CONF) - 1
 
 # PARAMETRES MODIFIABLES
 # Parametres de l'algo genetique
@@ -23,7 +34,7 @@ NB_RUN_MEAN = 50
 
 # Parametres de l'algo de traitement d'image
 
-MODE = IMPROC.NO_DISPLAY
+MODE = NO_DISPLAY
 
 THRES_G_HUE_LOWER = 40      #green
 THRES_G_HUE_UPPER = 60
@@ -52,8 +63,8 @@ DEG_HL = [ 0, 90 ]
 PIN_ROT = [ 14, 2, 5, 6, 10]
 DEG_ROT = [ 0, 45, 90 ]
 
-# Matrice de mouvements imposée
+# Matrice de mouvements imposés
 MVT_SET = []
 
-# Paramétres de fonctionnement
+# Paramétre de fonctionnement
 MODE_PARAMETRAGE = 1

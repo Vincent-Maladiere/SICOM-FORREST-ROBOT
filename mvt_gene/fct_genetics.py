@@ -123,13 +123,12 @@ def mutation4(individu):
                 pos = P.pop()
                 if random.random() > p :
                         individu.liste[pos] = random.randrange(PA.MVT_NB)
-                        #n+=1
                 p *=p
-        #print(n)
+
 
         
 def evaluation(individu):
-        """Fonction d evaluation"""
+        """Fonction d evaluation pour les tests"""
         individu.give_score(random.random())
 
 def evaluation_robot(individu,scalar):

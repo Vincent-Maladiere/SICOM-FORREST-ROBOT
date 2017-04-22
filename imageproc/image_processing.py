@@ -2,8 +2,6 @@ import math
 import os
 import parameters as PA
 
-DISPLAY = 1
-NO_DISPLAY = 0
 try :
      import cv2
      import numpy as np
@@ -62,7 +60,7 @@ try :
 
           d = math.sqrt((x1-x2)**2+(y1-y2)**2)
 
-          if(mode == DISPLAY):
+          if(mode == PA.DISPLAY):
 
                #the two found vertexes in black :
                i[x1,y1,0]=0
@@ -96,7 +94,7 @@ try :
           high_red= np.array([PA.THRES_R_HUE_UPPER,255,255])
           maskr = cv2.medianBlur(cv2.inRange(hsv, low_red, high_red),3)
 
-          if(mode == DISPLAY):
+          if(mode == PA.DISPLAY):
                plt.imshow(i)
                plt.show()
 
@@ -151,7 +149,7 @@ try :
           xp = (xq*(xr-xg)*(xr-xg)+xg*(yr-yg)*(yr-yg)+(yq-yg)*(yr-yg)*(xr-xg))/((xr-xg)*(xr-xg)+(yr-yg)*(yr-yg))
           yp = yg+(xp-xg)*(yr-yg)/(xr-xg)
 
-          if(mode == DISPLAY):
+          if(mode == PA.DISPLAY):
                #axe drawing
                [L,H,D]=i.shape
                k=0
@@ -230,4 +228,4 @@ try :
                dp = -1*dp
                return dp
 
-except : None #Normalement on est censé savoir quelles exceptions vont surgirent et quoi faire avec, j'ai laissé un None
+except : None #Normalement on est censé savoir quelles exceptions vont surgirent et quoi faire avec, j'ai laissé un None ( Gab )
