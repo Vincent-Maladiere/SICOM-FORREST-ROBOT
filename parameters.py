@@ -5,6 +5,7 @@ import mvt_gene.fct_genetics as FG
 # PARAMETRES NON MODIFIABLES
 # Modes de fonctionnement global
 MODE_SBS,MODE_DEBUG,MODE_NORMAL = 0,1,2
+NO_DISPLAY,DISPLAY = 0,1
 
 # Matrices de l'algo genetique
 ## Matrice des mouvements
@@ -34,7 +35,7 @@ NB_RUN_MEAN = 50
 
 # Parametres de l'algo de traitement d'image
 
-MODE = NO_DISPLAY
+MODE_IMPROC = NO_DISPLAY
 
 THRES_G_HUE_LOWER = 40      #green
 THRES_G_HUE_UPPER = 60

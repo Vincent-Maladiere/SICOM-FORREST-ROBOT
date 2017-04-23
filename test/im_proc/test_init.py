@@ -8,8 +8,9 @@ for i in sys.argv[1:] :
     exec(i)
 
 #script de test
+PA.MODE_IMPROC = PA.DISPLAY
 print()
 print('######################')
-IMPROC.init_imageproc(IMPROC.DISPLAY)
+IMPROC.init_imageproc()
 print('######################')
 print()

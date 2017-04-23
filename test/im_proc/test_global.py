@@ -13,7 +13,7 @@ image2 = "3.jpg"
 
 print()
 print('######################')
-IMPROC.init_imageproc(PA.MODE)
-IMPROC.distance_crossed(image1,image2,PA.MODE)
+IMPROC.init_imageproc()
+IMPROC.distance_crossed(image1,image2)
 print('######################')
 print()
