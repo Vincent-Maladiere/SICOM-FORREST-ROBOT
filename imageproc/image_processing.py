@@ -44,7 +44,7 @@ try :
           return [p1[0], p1[1], p2[0], p2[1]]
 
 
-     def a4_diago(image, mode):     #return cartesian length of the diagonal of the sheet paper
+     def a4_diago(image):     #return cartesian length of the diagonal of the sheet paper
 
           i = cv2.imread(image,1)
           hsv = cv2.cvtColor(i, cv2.COLOR_BGR2HSV)
@@ -60,7 +60,7 @@ try :
 
           d = math.sqrt((x1-x2)**2+(y1-y2)**2)
 
-          if(mode == PA.DISPLAY):
+          if(PA.MODE_IMPROC == PA.DISPLAY):
 
                #the two found vertexes in black :
                i[x1,y1,0]=0
@@ -78,7 +78,7 @@ try :
           return d
 
 
-     def find_position(image, mode):
+     def find_position(image):
 
           i = cv2.imread(image,1)
           hsv = cv2.cvtColor(i, cv2.COLOR_BGR2HSV)
@@ -94,7 +94,7 @@ try :
           high_red= np.array([PA.THRES_R_HUE_UPPER,255,255])
           maskr = cv2.medianBlur(cv2.inRange(hsv, low_red, high_red),3)
 
-          if(mode == PA.DISPLAY):
+          if(PA.MODE_IMPROC== PA.DISPLAY):
                plt.imshow(i)
                plt.show()
 
@@ -123,23 +123,23 @@ try :
           return [(x3g,y3g),(x3r,y3r)]
 
 
-     def init_imageproc(mode):
+     def init_imageproc():
           try:
                sh.ls(os.system("fswebcam -r 352x288 --no-banner a4_init.jpg"))
           except:
                print('No webcam was detected. The processing is going on with default picture a4_init.jpg.')
           global A4_CART_DIAGO
-          A4_CART_DIAGO = a4_diago("a4_init.jpg", mode)
+          A4_CART_DIAGO = a4_diago("a4_init.jpg")
 
 
-     def distance_crossed(image2, image3, mode):
+     def distance_crossed(image2, image3):
 
           #initial position
-          [(xg,yg),(xr,yr)] = find_position(image2, mode)
+          [(xg,yg),(xr,yr)] = find_position(image2)
           [xo,yo] = [(xg+xr)/2,(yg+yr)/2]
 
           #final position
-          [(xgq,ygq),(xrq,yrq)] = find_position(image3, mode)
+          [(xgq,ygq),(xrq,yrq)] = find_position(image3)
           (xq,yq) = ((xgq+xrq)/2,(ygq+yrq)/2)
 
           i = cv2.imread(image3,1)
@@ -149,7 +149,7 @@ try :
           xp = (xq*(xr-xg)*(xr-xg)+xg*(yr-yg)*(yr-yg)+(yq-yg)*(yr-yg)*(xr-xg))/((xr-xg)*(xr-xg)+(yr-yg)*(yr-yg))
           yp = yg+(xp-xg)*(yr-yg)/(xr-xg)
 
-          if(mode == PA.DISPLAY):
+          if(PA.MODE_IMPROC == PA.DISPLAY):
                #axe drawing
                [L,H,D]=i.shape
                k=0

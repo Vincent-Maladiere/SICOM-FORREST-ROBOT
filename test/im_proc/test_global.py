@@ -1,7 +1,6 @@
 import sys
 sys.path[0] = sys.path[0].replace('/test/im_proc','')
 
-import parameters as PA
 import imageproc.image_processing as IMPROC
 
 for i in sys.argv[1:] :
@@ -13,7 +12,7 @@ image2 = "3.jpg"
 
 print()
 print('######################')
-IMPROC.init_imageproc(PA.MODE)
-IMPROC.distance_crossed(image1,image2,PA.MODE)
+IMPROC.init_imageproc()
+IMPROC.distance_crossed(image1,image2)
 print('######################')
 print()
