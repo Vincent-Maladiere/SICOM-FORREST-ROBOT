@@ -228,4 +228,5 @@ try :
                dp = -1*dp
                return dp
 
-except : None #Normalement on est censé savoir quelles exceptions vont surgirent et quoi faire avec, j'ai laissé un None ( Gab )
+except :
+     print("At least one of the modules can not be imported")
