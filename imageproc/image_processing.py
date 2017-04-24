@@ -86,10 +86,7 @@ try :
           low_green = np.array([PA.THRES_G_HUE_LOWER,PA.THRES_G_SAT_LOWER,PA.THRES_VALUE_LOWER])
           high_green= np.array([PA.THRES_G_HUE_UPPER,255,255])
           maskg = cv2.medianBlur(cv2.inRange(hsv, low_green, high_green),3)
-          plt.figure('maskg')
-          plt.imshow(maskg)
-          plt.show
-
+          
           low_red = np.array([PA.THRES_R_HUE_LOWER,PA.THRES_R_SAT_LOWER,PA.THRES_VALUE_LOWER])
           high_red= np.array([PA.THRES_R_HUE_UPPER,255,255])
           maskr = cv2.medianBlur(cv2.inRange(hsv, low_red, high_red),3)
@@ -132,17 +129,17 @@ try :
           A4_CART_DIAGO = a4_diago("a4_init.jpg")
 
 
-     def distance_crossed(image2, image3):
+     def distance_crossed(image1, image2):
 
           #initial position
-          [(xg,yg),(xr,yr)] = find_position(image2)
+          [(xg,yg),(xr,yr)] = find_position(image1)
           [xo,yo] = [(xg+xr)/2,(yg+yr)/2]
 
           #final position
-          [(xgq,ygq),(xrq,yrq)] = find_position(image3)
+          [(xgq,ygq),(xrq,yrq)] = find_position(image2)
           (xq,yq) = ((xgq+xrq)/2,(ygq+yrq)/2)
 
-          i = cv2.imread(image3,1)
+          i = cv2.imread(image2,1)
           hsv = cv2.cvtColor(i, cv2.COLOR_BGR2HSV)
 
           #projection (orthogonality and cartesian equation verification)
