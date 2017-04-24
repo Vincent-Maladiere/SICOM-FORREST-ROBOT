@@ -124,7 +124,7 @@ try :
           try:
                sh.ls(os.system("fswebcam -r 352x288 --no-banner a4_init.jpg"))
           except:
-               print('No webcam was detected. The processing is going on with default picture a4_init.jpg.')
+               print('No webcam detected. The processing is going on with default picture a4_init.jpg.')
           global A4_CART_DIAGO
           A4_CART_DIAGO = a4_diago("a4_init.jpg")
 
@@ -226,4 +226,4 @@ try :
                return dp
 
 except :
-     print("At least one of the modules can not be imported")
+     print("At least one of the modules cannot be imported")
