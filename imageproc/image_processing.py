@@ -215,6 +215,9 @@ try :
           d = math.sqrt((xq-xo)*(xq-xo)+(yq-yo)*(yq-yo))*PA.A4_REAL_DIAGO/A4_CART_DIAGO
           dp = math.sqrt((xp-xo)*(xp-xo)+(yp-yo)*(yp-yo))*PA.A4_REAL_DIAGO/A4_CART_DIAGO
 
+          d = d.__round__(1)
+          dp = dp.__round__(1)
+
           print("Forrest has travelled a distance of ",d," cm.")
 
           if((xr >= xo and xp >= xo and yr >= yo and yp >= yo) or (xr <= xo and xp <= xo and yr >= yo and yp >= yo) or (xr <= xo and xp <= xo and yr <= yo and yp <= yo) or (xr >= xo and xp >= xo and yr <= yo and yp <= yo)):
